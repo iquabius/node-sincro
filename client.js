@@ -9,7 +9,11 @@ client.on('listening', function () {
 });
 
 client.on('message', function (message, rinfo) {
-    console.log('Message from: ' + rinfo.address + ':' + rinfo.port +' - ' + message);
+  console.log('Message from: ' + rinfo.address + ':' + rinfo.port +' - ' + message);
+  var message = new Buffer("Cliente diz olá!");
+  client.send(message, 0, message.length, rinfo.port, rinfo.address, function() {
+    console.log("Sent '" + message + "'");
+  });
 });
 
 client.bind(PORT);

@@ -16,3 +16,7 @@ function broadcastNew() {
     console.log("Sent '" + message + "'");
   });
 }
+
+server.on('message', function (message, rinfo) {
+  console.log('Message from: ' + rinfo.address + ':' + rinfo.port +' - ' + message);
+});
