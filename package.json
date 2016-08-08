@@ -1,0 +1,17 @@
+{
+  "name": "broadcast",
+  "version": "0.0.1",
+  "description": "Sincronização de relógios (trabalho de Sistemas Distribuídos.",
+  "keywords": [],
+  "author": "Josias Duarte Busiquia",
+  "license": "ISC",
+  "main": "server.js",
+  "dependencies": {
+    "ip": "^1.1.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  }
+}
