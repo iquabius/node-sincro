@@ -5,13 +5,13 @@
   "keywords": [],
   "author": "Josias Duarte Busiquia",
   "license": "ISC",
-  "main": "server.js",
+  "main": "sock.js",
   "dependencies": {
     "ip": "^1.1.3"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node sock.js"
   }
 }
