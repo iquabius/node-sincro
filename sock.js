@@ -10,7 +10,7 @@ const sock = dgram.createSocket("udp4");
 
 let init = function() {
   sock.setBroadcast(true);
-  let address = sock.address;
+  let address = sock.address();
   console.log(`Cliente UDP escutando em ${address.address}: ${address.port}`);
   broadcastNew();
 };
