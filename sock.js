@@ -4,7 +4,7 @@ let moment = require('moment');
 const execFile = require('child_process').execFile;
 
 const PORT = 6024;
-const BROADCAST_ADDR = "113.167.9.63";
+const BROADCAST_ADDR = "255.255.255.255";
 const dgram = require('dgram');
 const sock = dgram.createSocket("udp4");
 
