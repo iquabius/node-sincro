@@ -17,11 +17,11 @@ let init = function() {
 
 function broadcastNew() {
   // pega a hora do sistema de forma assíncrona
-  getTime((datetime) => {
+  getTime((datetimeStr) => {
     // cria um buffer com a hora e envia o broadcast
-    let message = new Buffer(datetime.format('YYYY-MM-DD HH:mm:ss'));
+    let message = new Buffer(datetimeStr);
     sock.send(message, 0, message.length, PORT, BROADCAST_ADDR, () => {
-      console.log(`Broadcast enviado: ${datetime.format('YYYY-MM-DD HH:mm:ss')}`);
+      console.log(`Broadcast enviado: ${datetimeStr}`);
     });
   });
 }
@@ -29,15 +29,17 @@ function broadcastNew() {
 sock.on('message', function (message, rinfo) {
   // console.log(`Mensagem recebida: ${rinfo.address}: ${rinfo.port} - ${message}`);
   if (ip.address() != rinfo.address) {
-    getTime((datetime) => {
+    getTime((datetimeStr) => {
       //let timei = parseInt(time);
       //let messagei = parseInt(message);
       let remoteDatetime = new Date(message);
+      //Remover a dependência no 'moment.js' (Já que não vai mais precisar do 'format')?
+      let datetime = moment(datetimeStr);
       // se a hora local for maior e a diferença maior que 30s
       // cria um buffer com a hora local e envia
       if (datetime > remoteDatetime && (datetime - remoteDatetime) > 30*1000) {
         console.log(`Hora local é maior.`);
-        let response = Buffer.from(datetime.format('YYYY-MM-DD HH:mm:ss'));
+        let response = Buffer.from(datetimeStr);
         sock.send(response, 0, response.length, rinfo.port, rinfo.address, () => {
           console.log(`Hora local enviada para ${rinfo.address}`);
         });
@@ -48,7 +50,7 @@ sock.on('message', function (message, rinfo) {
           console.log(`Hora atualizada: ${output}`);
         });
       } else {
-        console.log(`Horas iguais: ${datetime.format('YYYY-MM-DD HH:mm:ss')} e ${message}`);
+        console.log(`Horas iguais: ${datetimeStr} e ${message}`);
       }
     });
   }
@@ -67,13 +69,10 @@ function getTime(callback) {
     if (stderr) {
       console.error(stderr);
     }
-    // let std = stdout;//.replace(/\r?\n|\r/, '');
-    // console.log(`Hora do sistema: ${std.replace("\n", "\\n")}`);
-    // console.log(`Length: ${stdout.length}`);
     // 'slice' remove o carácter "\n" do fim da string.
-    let datetime = moment(stdout.slice(0, -1));
-    console.log(`Hora do sistema: ${datetime.format("YYYY-MM-DD HH:mm:ss")}`);
-    callback(datetime);
+    let datetimeStr = stdout.slice(0, -1);
+    console.log(`Hora do sistema: ${datetimeStr}`);
+    callback(datetimeStr);
   });
 }
 
