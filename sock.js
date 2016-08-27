@@ -9,7 +9,7 @@ const sock = dgram.createSocket("udp4");
 
 let config = {
   broadcastInterval: 5000
-}
+};
 
 let init = function() {
   sock.setBroadcast(true);
