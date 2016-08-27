@@ -25,7 +25,6 @@ sock.bind(PORT, init);
 /**
  * Envia uma mensagem broadcast com o datagrama contendo a data e hora
  * no formato "2016-12-31 23:59:59".
- * @returns {void}
  */
 function sendDatetimeBroadcast() {
   // Pega a data e a hora do sistema de forma assíncrona. Passa uma
@@ -76,7 +75,6 @@ sock.on('message', (message, rinfo) => {
  * 'date +%F %T' retornar a data e a hora do sistema, que serão passadas como
  * um argumento do tipo string no formato "2016-12-31 23:59:59".
  * @throws {Error} Caso execFile() retorne um erro ao tentar executar o comando.
- * @returns {void}
  */
 function getDatetime(callback) {
   // Executa o comando 'date +%F %T' de forma assíncrona. O último
@@ -110,7 +108,6 @@ function getDatetime(callback) {
  * @param {function} callback Função para ser chamada com a saída
  * produzida pelo comando 'date -s <data-e-hora>'.
  * @throws {Error} Caso execFile() retorne um erro ao tentar executar o comando.
- * @returns {void}
  */
 function setDatetime(datetime, callback) {
   const child = execFile('date', ['-s', datetime], (error, stdout, stderr) => {
