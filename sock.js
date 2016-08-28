@@ -1,5 +1,7 @@
+// Pacote com utilitários de endereço de IP
 let ip = require('ip');
-let moment = require('moment');
+
+// execFile permite a execução de programas sem a necessidade de um Shell
 const execFile = require('child_process').execFile;
 
 const PORT = 6024;
@@ -46,9 +48,11 @@ sock.on('message', (msg, rinfo) => {
   // Ignora mensagens de broadcast enviadas pelo próprio host.
   if (ip.address() != rinfo.address) {
     getDatetime((datetimeStr) => {
+      // Cria objetos para data/hora local e remota, permitindo que as
+      // duas sejam comparadas
+      let datetime = new Date(datetimeStr);
       let remoteDatetime = new Date(msg);
-      //Remover a dependência no 'moment.js' (Já que não vai mais precisar do 'format')?
-      let datetime = moment(datetimeStr);
+
       // Se a data/hora local for maior e a diferença for maior que 30s
       if (datetime > remoteDatetime
           && (datetime - remoteDatetime) > config.clockMarginOfError) {
