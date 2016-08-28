@@ -8,7 +8,8 @@ const dgram = require('dgram');
 const sock = dgram.createSocket("udp4");
 
 let config = {
-  broadcastInterval: 5000
+  broadcastInterval: 5000,
+  clockMarginOfError: 30*1000   // Margem de erro em milisegundos
 };
 
 let init = function() {
@@ -49,7 +50,8 @@ sock.on('message', (msg, rinfo) => {
       //Remover a dependência no 'moment.js' (Já que não vai mais precisar do 'format')?
       let datetime = moment(datetimeStr);
       // Se a data/hora local for maior e a diferença for maior que 30s
-      if (datetime > remoteDatetime && (datetime - remoteDatetime) > 30*1000) {
+      if (datetime > remoteDatetime
+          && (datetime - remoteDatetime) > config.clockMarginOfError) {
         console.log(`Hora local é maior.`);
         // Cria um buffer com a data e a hora local
         let response = Buffer.from(datetimeStr);
@@ -57,7 +59,8 @@ sock.on('message', (msg, rinfo) => {
         sock.send(response, 0, response.length, rinfo.port, rinfo.address, () => {
           console.log(`Hora local enviada para ${rinfo.address}.`);
         });
-      } else if (datetime < remoteDatetime && (remoteDatetime - datetime) > 30*1000) {
+      } else if (datetime < remoteDatetime
+                 && (remoteDatetime - datetime) > config.clockMarginOfError) {
         // Caso a data/hora enviada seja maior, atualiza a data/hora local
         console.log(`Hora local é menor.`);
         setDatetime(msg, (output) => {
