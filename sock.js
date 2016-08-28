@@ -15,7 +15,7 @@ let config = {
 let init = function() {
   sock.setBroadcast(true);
   let address = sock.address();
-  console.log(`Socket UDP escutando em ${address.address}: ${address.port}\n`);
+  console.log(`Socket UDP escutando em ${address.address}:${address.port}\n`);
   sendDatetimeBroadcast();
   setInterval(sendDatetimeBroadcast, config.broadcastInterval);
 };
@@ -37,7 +37,7 @@ function sendDatetimeBroadcast() {
     let message = new Buffer(datetimeStr);
     // Envia o buffer para o endereço de broadcast
     sock.send(message, 0, message.length, PORT, BROADCAST_ADDR, () => {
-      console.log(`=> Mensagem de broadcast enviada: "${datetimeStr}"`);
+      console.log(`=> Mensagem de broadcast enviada: "${datetimeStr}".`);
     });
   });
 }
@@ -64,10 +64,10 @@ sock.on('message', (msg, rinfo) => {
         // Caso a data/hora enviada seja maior, atualiza a data/hora local
         console.log(`Hora local é menor.`);
         setDatetime(msg, (output) => {
-          console.log(`Hora atualizada: ${output}`);
+          console.log(`Hora local atualizada de ${rinfo.address}: ${output}`);
         });
       } else {
-        console.log(`Horas iguais: ${datetimeStr} e ${msg}`);
+        console.log(`Horas iguais:\n  Local: ${datetimeStr}\n  Remota (${rinfo.address}): ${msg}`);
       }
     });
   }
