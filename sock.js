@@ -14,7 +14,7 @@ const sock = dgram.createSocket('udp4');
 // Configuração da aplicação
 let config = {
   broadcastInterval: 5000,      // Intervalo em ms entre as mensagens de broadcast
-  clockMarginOfError: 30*1000,  // Margem de erro em milisegundos
+  clockMarginOfError: 10*1000,  // Margem de erro em milisegundos
   socketPort: 6024,             // Porta onde o socket escuta
   bcastAddr: "255.255.255.255"
 };
