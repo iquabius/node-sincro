@@ -1,17 +1,22 @@
 // Pacote com utilitários de endereço de IP
-let ip = require('ip');
+const ip = require('ip');
 
-// execFile permite a execução de programas sem a necessidade de um Shell
+// A função "execFile" (do módulo "child_process") permite a execução de
+// programas sem a necessidade de rodar um interpretador de comandos (Shell).
 const execFile = require('child_process').execFile;
 
-const PORT = 6024;
-const BROADCAST_ADDR = "255.255.255.255";
+// O módulo "dgram" oferece uma API de sockets UDP, tanto para redes IPv4
+// quanto redes IPv6.
 const dgram = require('dgram');
-const sock = dgram.createSocket("udp4");
+// "dgram.createSocket('udp6');" criaria um socket UDP para uma rede IPv6.
+const sock = dgram.createSocket('udp4');
 
+// Configuração da aplicação
 let config = {
-  broadcastInterval: 5000,
-  clockMarginOfError: 30*1000   // Margem de erro em milisegundos
+  broadcastInterval: 5000,      // Intervalo em ms entre as mensagens de broadcast
+  clockMarginOfError: 30*1000,  // Margem de erro em milisegundos
+  socketPort: 6024,             // Porta onde o socket escuta
+  bcastAddr: "255.255.255.255"
 };
 
 let init = function() {
@@ -24,7 +29,7 @@ let init = function() {
 
 // IP não específicado, então o SO vai tentar ouvir em todos os
 // endereços
-sock.bind(PORT, init);
+sock.bind(config.socketPort, init);
 
 /**
  * Envia uma mensagem broadcast com o datagrama contendo a data e hora
@@ -38,7 +43,7 @@ function sendDatetimeBroadcast() {
     // Cria um buffer com a string contendo a data e a hora local
     let message = new Buffer(datetimeStr);
     // Envia o buffer para o endereço de broadcast
-    sock.send(message, 0, message.length, PORT, BROADCAST_ADDR, () => {
+    sock.send(message, 0, message.length, config.socketPort, config.bcastAddr, () => {
       console.log(`=> Mensagem de broadcast enviada: "${datetimeStr}".`);
     });
   });
