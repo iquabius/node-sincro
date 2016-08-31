@@ -41,7 +41,7 @@ function sendDatetimeBroadcast() {
   // retornadas.
   getDatetime((datetimeStr) => {
     // Cria um buffer com a string contendo a data e a hora local
-    let message = new Buffer(datetimeStr);
+    let message = Buffer.from(datetimeStr);
     // Envia o buffer para o endereço de broadcast
     sock.send(message, 0, message.length, config.socketPort, config.bcastAddr, () => {
       console.log(`=> Mensagem de broadcast enviada: "${datetimeStr}".`);
