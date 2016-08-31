@@ -19,17 +19,17 @@ let config = {
   bcastAddr: "255.255.255.255"
 };
 
-let init = function() {
+let appInit = function() {
   sock.setBroadcast(true);
-  let address = sock.address();
-  console.log(`Socket UDP escutando em ${address.address}:${address.port}\n`);
+  let sockAddr = sock.address();
+  console.log(`Socket UDP escutando em ${sockAddr.address}:${sockAddr.port}\n`);
   sendDatetimeBroadcast();
   setInterval(sendDatetimeBroadcast, config.bcastInterval);
 };
 
 // IP não específicado, então o SO vai tentar ouvir em todos os
 // endereços
-sock.bind(config.socketPort, init);
+sock.bind(config.socketPort, appInit);
 
 /**
  * Envia uma mensagem broadcast com o datagrama contendo a data e hora
