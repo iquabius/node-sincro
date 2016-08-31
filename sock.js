@@ -13,7 +13,7 @@ const sock = dgram.createSocket('udp4');
 
 // Configuração da aplicação
 let config = {
-  broadcastInterval: 5000,      // Intervalo em ms entre as mensagens de broadcast
+  bcastInterval: 5000,      // Intervalo em ms entre as mensagens de broadcast
   clockMarginOfError: 10*1000,  // Margem de erro em milisegundos
   socketPort: 6024,             // Porta onde o socket escuta
   bcastAddr: "255.255.255.255"
@@ -24,7 +24,7 @@ let init = function() {
   let address = sock.address();
   console.log(`Socket UDP escutando em ${address.address}:${address.port}\n`);
   sendDatetimeBroadcast();
-  setInterval(sendDatetimeBroadcast, config.broadcastInterval);
+  setInterval(sendDatetimeBroadcast, config.bcastInterval);
 };
 
 // IP não específicado, então o SO vai tentar ouvir em todos os
