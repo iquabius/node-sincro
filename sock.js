@@ -58,7 +58,8 @@ sock.on('message', (msg, rinfo) => {
       let datetime = new Date(datetimeStr);
       let remoteDatetime = new Date(msg);
 
-      // Se a data/hora local for maior e a diferença for maior que 30s
+      // Se a data/hora local for maior e a diferença for maior que
+      // config.clockMarginOfError milisegundos
       if (datetime > remoteDatetime
           && (datetime - remoteDatetime) > config.clockMarginOfError) {
         console.log(`Hora local é maior.`);
