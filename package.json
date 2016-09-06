@@ -13,6 +13,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "sudo ~/.nvm/versions/node/v6.2.1/bin/node sock.js"
+    "start": "sudo ~/.nvm/versions/node/v6.2.1/bin/node sock.js",
+    "random-datetime": "sudo ~/.nvm/versions/node/v6.2.1/bin/node ./scripts/random_datetime.js"
   }
 }
