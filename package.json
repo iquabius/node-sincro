@@ -4,7 +4,7 @@
   "description": "Sincronização de relógios (trabalho de Sistemas Distribuídos.",
   "keywords": [],
   "author": "Josias Duarte Busiquia",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "main": "sock.js",
   "dependencies": {
     "ip": "^1.1.3"
