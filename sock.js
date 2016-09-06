@@ -1,4 +1,3 @@
-// http://stackoverflow.com/questions/6177423/send-broadcast-datagram
 let ip = require('ip');
 let moment = require('moment');
 const execFile = require('child_process').execFile;
@@ -31,9 +30,9 @@ function sendDatetimeBroadcast() {
   // função como argumento para ser chamada quando a data e hora forem
   // retornadas.
   getDatetime((datetimeStr) => {
-    // Cria um buffer com a a string de data e hora
+    // Cria um buffer com a string contendo a data e a hora local
     let message = new Buffer(datetimeStr);
-    // Envia o buffer para endereço de broadcast
+    // Envia o buffer para o endereço de broadcast
     sock.send(message, 0, message.length, PORT, BROADCAST_ADDR, () => {
       console.log(`=> Mensagem de broadcast enviada: "${datetimeStr}"`);
     });
@@ -47,16 +46,17 @@ sock.on('message', (msg, rinfo) => {
       let remoteDatetime = new Date(msg);
       //Remover a dependência no 'moment.js' (Já que não vai mais precisar do 'format')?
       let datetime = moment(datetimeStr);
-      // se a hora local for maior e a diferença maior que 30s
-      // cria um buffer com a hora local e envia
+      // Se a data/hora local for maior e a diferença for maior que 30s
       if (datetime > remoteDatetime && (datetime - remoteDatetime) > 30*1000) {
         console.log(`Hora local é maior.`);
+        // Cria um buffer com a data e a hora local
         let response = Buffer.from(datetimeStr);
+        // Envia o buffer para o endereço do remetente
         sock.send(response, 0, response.length, rinfo.port, rinfo.address, () => {
-          console.log(`Hora local enviada para ${rinfo.address}`);
+          console.log(`Hora local enviada para ${rinfo.address}.`);
         });
       } else if (datetime < remoteDatetime && (remoteDatetime - datetime) > 30*1000) {
-        // caso a enviada seja maior, atualize a hora local
+        // Caso a data/hora enviada seja maior, atualiza a data/hora local
         console.log(`Hora local é menor.`);
         setDatetime(msg, (output) => {
           console.log(`Hora atualizada: ${output}`);
@@ -93,14 +93,13 @@ function getDatetime(callback) {
       // Para a execução com um código de falha
       process.exit(1);
     }
-    // Pega todos os caractéres da saída padrão (stdout) exceto o
-    // último, que é um caractér de nova linha: '\n'.
+    // Pega todos os carácteres da saída padrão (stdout) exceto o
+    // último, que é um carácter de nova linha: '\n'.
     let datetimeStr = stdout.slice(0, -1);
     callback(datetimeStr);
   });
 }
 
-// time string
 /**
  * Seta a hora do sistema com o comando 'date' do linux.
  *
