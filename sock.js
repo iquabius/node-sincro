@@ -40,11 +40,11 @@ function sendDatetimeBroadcast() {
   });
 }
 
-sock.on('message', (message, rinfo) => {
+sock.on('message', (msg, rinfo) => {
   // Ignora mensagens de broadcast enviadas pelo próprio host.
   if (ip.address() != rinfo.address) {
     getDatetime((datetimeStr) => {
-      let remoteDatetime = new Date(message);
+      let remoteDatetime = new Date(msg);
       //Remover a dependência no 'moment.js' (Já que não vai mais precisar do 'format')?
       let datetime = moment(datetimeStr);
       // se a hora local for maior e a diferença maior que 30s
@@ -58,11 +58,11 @@ sock.on('message', (message, rinfo) => {
       } else if (datetime < remoteDatetime && (remoteDatetime - datetime) > 30*1000) {
         // caso a enviada seja maior, atualize a hora local
         console.log(`Hora local é menor.`);
-        setDatetime(message, (output) => {
+        setDatetime(msg, (output) => {
           console.log(`Hora atualizada: ${output}`);
         });
       } else {
-        console.log(`Horas iguais: ${datetimeStr} e ${message}`);
+        console.log(`Horas iguais: ${datetimeStr} e ${msg}`);
       }
     });
   }
