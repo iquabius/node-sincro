@@ -19,6 +19,8 @@ let init = function() {
   setInterval(sendDatetimeBroadcast, config.broadcastInterval);
 };
 
+// IP não específicado, então o SO vai tentar ouvir em todos os
+// endereços
 sock.bind(PORT, init);
 
 /**
