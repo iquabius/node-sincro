@@ -29,12 +29,12 @@ nvm install v6.2.1
 Clone o projeto e mude para o diretório criado.
 
 ```sh
-git clone https://bitbucket.org/iquabius/unemat-16-1-sd-sincronizacao.git sd-sincro
-cd sd-sincro
+git clone https://github.com/iquabius/node-sincro.git
+cd node-sincro
 ```
 
-Instale as dependências do projeto listadas no arquivo *package.json*,
-utilizando o `npm`, o gerenciador de pacotes do Node.js.
+Instale as dependências do projeto listadas no arquivo *package.json* utilizando
+o `npm`, o gerenciador de pacotes do Node.js.
 
 ```
 npm install
